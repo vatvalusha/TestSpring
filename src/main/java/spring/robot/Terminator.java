@@ -1,5 +1,9 @@
 package spring.robot;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import spring.interfaces.part.body.robot.Hand;
 import spring.interfaces.part.body.robot.Head;
 import spring.interfaces.part.body.robot.Leg;
@@ -9,13 +13,28 @@ import org.springframework.beans.factory.InitializingBean;
 /**
  * Created by valeriyartemenko on 07.10.17.
  */
+
+@Component
 public class Terminator extends BaseModel implements InitializingBean, DisposableBean {
 
     private String color;
     private int year;
     private boolean soundEnable;
 
+
     public Terminator(){}
+
+    @Bean
+    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public Terminator model1(){
+        return new Terminator();
+    }
+
+    @Bean
+    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public Terminator model12(){
+        return new Terminator("green", 22,true);
+    }
 
     public Terminator(Hand hand, Leg leg, Head head) {
         super(hand, leg, head);
@@ -31,6 +50,10 @@ public class Terminator extends BaseModel implements InitializingBean, Disposabl
         this.color = color;
         this.year = year;
         this.soundEnable = soundEnabled;
+    }
+
+    public String getNotReplacer(){
+        return "Not replace";
     }
 
     @Override
